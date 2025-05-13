@@ -19,6 +19,17 @@ function App() {
   //useEffect for fetching data when loading
   useEffect(fetchActors, [gender]);
 
+  let allAwards = [];
+
+  for (let actor of actors) {
+    if (actor.awards) {
+      allAwards = allAwards.concat(actor.awards);
+    }
+  }
+
+  const uniqueAwards = [...new Set(allAwards)];
+  console.log(uniqueAwards);
+
   return (
     <>
       <div className="container py-4">
@@ -59,6 +70,18 @@ function App() {
                   <div className="actor-bio fst-italic fsz-2 mb-3">
                     {actor.biography}
                   </div>
+                  {actor.awards && actor.awards !== "None" && (
+                    <div className="actor-awards d-flex align-items-center mb-3">
+                      <div className="award-icon">
+                        <i className="fa-solid fa-award me-3"></i>
+                      </div>
+                      <div className="award-list">
+                        {typeof actor.awards === "string"
+                          ? actor.awards
+                          : actor.awards.join(", ")}
+                      </div>
+                    </div>
+                  )}
                   {actor[
                     gender === "actors" ? "known_for" : "most_famous_movies"
                   ]?.map((film, index) => (
