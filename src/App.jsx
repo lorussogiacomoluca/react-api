@@ -33,11 +33,29 @@ function App() {
                   style={{ objectFit: "contain", height: "250px" }}
                 />
                 <div className="card-body">
-                  <div className="actor-name"></div>
-                  <div className="actor-birth"></div>
-                  <div className="actor-nationality"></div>
-                  <div className="actor-bio"></div>
-                  <div className="actor-riconoscimenti"></div>
+                  <div className="actor-infos text-secondary">
+                    <div className="actor-birthdead">
+                      {actor.death_year
+                        ? actor.birth_year + " - " + actor.death_year
+                        : actor.birth_year}
+                    </div>
+                    <div className="actor-nationality">{actor.nationality}</div>
+                  </div>
+                  <div className="actor-name">
+                    <h3>{actor.name}</h3>
+                  </div>
+                  <hr />
+                  <div className="actor-bio fst-italic fsz-2 mb-3">
+                    {actor.biography}
+                  </div>
+                  {actor.known_for.map((film, index) => (
+                    <div
+                      key={index}
+                      className="actor-known_for badge text-bg-primary me-2"
+                    >
+                      {film}
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
