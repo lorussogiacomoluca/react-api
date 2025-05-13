@@ -2,7 +2,9 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 
 function App() {
-  const endpoint = "https://lanciweb.github.io/demo/api/actors";
+  //useState male/female
+  const [gender, setGender] = useState("actors");
+  const endpoint = `https://lanciweb.github.io/demo/api/${gender}`;
   const [actors, setActors] = useState([]);
 
   //Fetch API
@@ -15,12 +17,21 @@ function App() {
       .catch((error) => console.error(error));
   };
   //useEffect for fetching data when loading
-  useEffect(fetchActors, []);
+  useEffect(fetchActors, [gender]);
+
   return (
     <>
       <div className="container py-4">
-        <nav className="mb-4">
-          <h1 className="text-center">Cast Fetching</h1>
+        <nav className="mb-4 d-flex justify-content-between">
+          <h1>Cast Fetching - {gender === "actors" ? "Attori" : "Attrici"}</h1>
+          <button
+            onClick={() =>
+              setGender(gender === "actors" ? "actresses" : "actors")
+            }
+            className="btn btn-outline-primary"
+          >
+            Scopri {gender === "actors" ? "attrici" : "attori"}
+          </button>
         </nav>
         <div className="row g-4">
           {actors.map((actor) => (
@@ -48,7 +59,9 @@ function App() {
                   <div className="actor-bio fst-italic fsz-2 mb-3">
                     {actor.biography}
                   </div>
-                  {actor.known_for.map((film, index) => (
+                  {actor[
+                    gender === "actors" ? "known_for" : "most_famous_movies"
+                  ]?.map((film, index) => (
                     <div
                       key={index}
                       className="actor-known_for badge text-bg-primary me-2"
